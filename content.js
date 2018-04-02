@@ -6,7 +6,7 @@ var mutationObserver = new MutationObserver(function(mutations) {
   for (var mutation of mutations)
   {
     if (mutation.target == undefined)
-      return true;
+      continue;
 
     if ($('.edit-container-inner').is(':visible'))
     {
@@ -21,6 +21,7 @@ var mutationObserver = new MutationObserver(function(mutations) {
     }
   }
 });
+
 
 function sendMessage(data, callback)
 {
@@ -110,10 +111,10 @@ function decryptTextarea(element)
     var elementId = Math.random();
     $(element).attr('data-dc-id', elementId);
 
-    sendMessage({elementId: elementId, method: 'decrypt', message: $(element).val().slice(5) }, function(response) {
+    sendMessage({elementId: elementId, method: 'decrypt', message: $(element).val().text().slice(5) }, function(response) {
       if (response.message != undefined)
       {
-        $('textarea[data-dc-id="' + response.elementId + '"]').val(response.message.slice(4));
+        $('textarea[data-dc-id="' + response.elementId + '"]').val(response.message);
       }
     });
   }
@@ -161,10 +162,12 @@ function sendToBackground(messages)
     if (messageText.substring(0, 5) == '$dcm$')
     {
 
+      var padLock = '<img style="float:left; margin-top:1px" src="' + browser.extension.getURL('img/padlock.png') + '" title="Discrypt message" alt="[Discrypt message]"> ';
+
       if (ircStyle)
-        $(message).children('span:eq(2)').text('Decrypting..');
+        $(message).children('span:eq(2)').html(padLock + 'Decrypting..');
       else
-        $(message).text('Decrypting..');
+        $(message).html(padLock + 'Decrypting..');
 
       // send message to background script which has the channel keys for decryption
 
@@ -172,24 +175,31 @@ function sendToBackground(messages)
         if (response.message != null)
         {
 
+          // remove html from message
+          response.message = $($.parseHTML(response.message)).text();
+
+          response.message = makeLinksClickable(response.message);
+
+          response.message = padLock + response.message;
+
           if ($('div[data-dc-id="' + response.elementId + '"]').attr('data-dc-irc') != undefined)
           {
-            $('div[data-dc-id="' + response.elementId + '"]').children('span:eq(2)').text(response.message).show();
+            $('div[data-dc-id="' + response.elementId + '"]').children('span:eq(2)').html(response.message).show();
           }
           else
           {
-            $('div[data-dc-id="' + response.elementId + '"]').text(response.message).show();
+            $('div[data-dc-id="' + response.elementId + '"]').html(response.message).show();
           }
         }
         else
         {
           if ($('div[data-dc-id="' + response.elementId + '"]').attr('data-dc-irc') != undefined)
           {
-            $('div[data-dc-id="' + response.elementId + '"]').children('span:eq(2)').val('Could not decrypt message').show();
+            $('div[data-dc-id="' + response.elementId + '"]').children('span:eq(2)').html(padLock + 'Could not decrypt message').show();
           }
           else
           {
-            $('div[data-dc-id="' + response.elementId + '"]').text('Could not decrypt message').show();
+            $('div[data-dc-id="' + response.elementId + '"]').html(padLock + 'Could not decrypt message').show();
           }
         }
       });
@@ -212,7 +222,7 @@ function sendToBackground(messages)
         // someone requsted a channel key
         case 'requestKey':
           sendMessage({elementId: elementId, method: 'addrequest', publicKeyId: payload.publicKeyId, publicKey: payload.publicKey }, function(response) {
-            $('div[data-dc-id="' + response.elementId + '"]').html('<b>Discrypt Key Request</b><br>\
+            $('div[data-dc-id="' + response.elementId + '"]').html(padLock + '<b>Discrypt Key Request</b><br>\
             I sent a channel key request. If you have the key and wish to send it to me, send this command to the chat:<br>\
             <b>.sendkey ' + payload.publicKeyId + '</b>');
           });
@@ -221,19 +231,19 @@ function sendToBackground(messages)
         // someone sent a channel key
         case 'keySent':
         sendMessage({elementId: elementId, method: 'receiveKey', publicKeyId: payload.publicKeyId, encryptedChannelKey: payload.encryptedChannelKey }, function(response) {
-          var statusText = '<b>Discrypt Key Request</b><br>\
+          var statusText = padLock + '<b>Discrypt Key Request</b><br>\
             Channel key was sent, but you could not decrypt it.';
 
           if (response.state == 'success')
-            statusText = '<b>Discrypt Key Request</b><br>\
+            statusText = padLock + '<b>Discrypt Key Request</b><br>\
             Channel key was sent and you decrypted it successfully.';
 
           if (response.state == 'alreadyHaveKey')
-            statusText = '<b>Discrypt Key Request</b><br>\
+            statusText = padLock + '<b>Discrypt Key Request</b><br>\
             Channel key was sent, but you already have a key stored for this channel.';
 
           if (response.state == 'invalidPublicKeyId')
-            statusText = '<b>Discrypt Key Request</b><br>\
+            statusText = padLock + '<b>Discrypt Key Request</b><br>\
             Channel key was sent, but it was not to you.';
 
           $('div[data-dc-id="' + response.elementId + '"]').html(statusText);
@@ -246,6 +256,14 @@ function sendToBackground(messages)
     }
 
   };
+}
+
+function makeLinksClickable(message)
+{
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return message.replace(urlRegex, function(url) {
+      return '<a target="_blank" href="' + url + '">' + url + '</a>';
+  })
 }
 
 init();

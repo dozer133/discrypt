@@ -385,7 +385,7 @@ function discrypt() {
 
     // encrypt the message
     try {
-      encrypted = cryptico.encrypt(('[e] ' + payload.content), currentChannel.keys.publicKey, cryptico.privateKeyFromString(currentChannel.keys.privateKey));
+      encrypted = cryptico.encrypt(payload.content, currentChannel.keys.publicKey, cryptico.privateKeyFromString(currentChannel.keys.privateKey));
 
       if (encrypted.status != 'success')
       {
