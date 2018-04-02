@@ -162,7 +162,7 @@ function sendToBackground(messages)
     if (messageText.substring(0, 5) == '$dcm$')
     {
 
-      var padLock = '<img style="float:left; margin-top:1px" src="' + browser.extension.getURL('img/padlock.png') + '" title="Discrypt message" alt="[Discrypt message]"> ';
+      var padLock = '<img style="float:left; margin-top:1px" src="' + browser.extension.getURL('img/icon16.png') + '" title="Discrypt message" alt="[Discrypt message]"> ';
 
       if (ircStyle)
         $(message).children('span:eq(2)').html(padLock + 'Decrypting..');
