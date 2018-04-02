@@ -111,7 +111,7 @@ function decryptTextarea(element)
     var elementId = Math.random();
     $(element).attr('data-dc-id', elementId);
 
-    sendMessage({elementId: elementId, method: 'decrypt', message: $(element).val().text().slice(5) }, function(response) {
+    sendMessage({elementId: elementId, method: 'decrypt', message: $(element).val().slice(5) }, function(response) {
       if (response.message != undefined)
       {
         $('textarea[data-dc-id="' + response.elementId + '"]').val(response.message);
