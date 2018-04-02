@@ -46,10 +46,10 @@ Joining is simple too. Type `.requestkey` and wait to be invited in. Someone who
 
 ## Authors
 
-* **Dozu** - *Discrypt itself* - [Dozu](https://github.com/dozu/)
+* **dzr** - *Discrypt itself* - [dozu](https://github.com/dozu/)
 * **StormDev** - *Documentation* - [St0rmDev](https://github.com/st0rmdev/)
 * **wwwtyro** - *cryptico* - [wwwtyro](http://wwwtyro.github.io/cryptico/)
-* **jQuery Foundation** - *jQuery* - (https://jquery.com)
+* **jQuery Foundation** - *jQuery* - [jquery](https://jquery.com)
 
 ## License
 
