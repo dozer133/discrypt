@@ -17,24 +17,24 @@ What things you need to setup Discrypt
 
 ### Installing
 
-Install Discrypt couldn't be simpler. Download the addon via the [Firefox Store](https://addons.mozilla.org/en-US/firefox/addon/discrypt/) or [Chrome Store](#) **coming soon** then open [discord](https://discordapp.com) via the web *not the desktop client* 
+Install Discrypt couldn't be simpler. Download the addon via the [Firefox Store](https://addons.mozilla.org/en-US/firefox/addon/discrypt/) or [Chrome Store](#) **coming soon** then open [discord](https://discordapp.com) via the web *not the desktop client*
 
 ## Setting up in your server
 
 Choose a channel where you want Discrypt to work in. We suggest creating a seperate channel for Discrypt convos as it can be rather messy for those without Discrypt for example:
 ![GodMessyDiscrypt](https://s17.postimg.org/445756ny7/Screenshot_143.png)
 
-In order to set up the key in the server type `.createkey` **It will appear like nothing happens, it's created the key. DO NOT retype .createkey unless you want a new key** 
+In order to set up the key in the server type `.createkey` **It will appear like nothing happens, it's created the key. DO NOT retype .createkey unless you want a new key**
 
 Now when you type it will encrypt your message, you can tell it's done this by the `[E]` in front of the message. In order to type in Plain Text, use the command `.pt` before your message and it will post your message without encryption.
 
 ### Joining a Discrypt Channel
 
-Joining is simple too. Type `.requestkey` and wait to be invited in. Someone who already has the key can type the command that on screen which will be `.sendkey (users public key)` that allows your client to decrypt the messages. 
+Joining is simple too. Type `.requestkey` and wait to be invited in. Someone who already has the key can type the command that on screen which will be `.sendkey (users public key)` that allows your client to decrypt the messages.
 
 ### Deleting Discrypt from a Channel
 
-`.removekey` **Warning this will cause the current key to be deleted from your client, this means you'll have to request the key again**
+`.deletekey` **Warning this will cause the current key to be deleted from your client, this means you'll have to request the key again**
 
 
 ## Authors
@@ -63,5 +63,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
