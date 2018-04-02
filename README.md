@@ -7,6 +7,13 @@ Encrypts and decrypts Discord messages using sharable keys.
 
 These instructions will help you use Discrypt within your own channel/servers.
 
+### Dependencies
+
+If you want to run this from source you'll need these libraries
+
+* jQuery - https://jquery.com/
+* Cryptico - https://github.com/wwwtyro/cryptico
+
 ### Prerequisites
 
 What things you need to setup Discrypt
@@ -41,7 +48,8 @@ Joining is simple too. Type `.requestkey` and wait to be invited in. Someone who
 
 * **Dozu** - *Discrypt itself* - [Dozu](https://github.com/dozu/)
 * **StormDev** - *Documentation* - [St0rmDev](https://github.com/st0rmdev/)
-
+* **wwwtyro** - *cryptico* - [wwwtyro](http://wwwtyro.github.io/cryptico/)
+* **jQuery Foundation** - *jQuery* - (https://jquery.com)
 
 ## License
 
