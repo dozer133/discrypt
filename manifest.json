@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "Discrypt",
+    "version": "2.1.2",
+    "author": "dzr",
+
+    "description": "Encrypts and decrypts Discord messages using sharable keys.",
+
+    "background": {
+      "scripts": ["jquery.min.js", "cryptico.js", "discrypt.js"]
+    },
+
+    "content_scripts": [{
+      "js": ["jquery.min.js", "content.js"],
+      "matches": ["*://discordapp.com/*"],
+      "run_at": "document_end"
+    }],
+
+    "permissions": ["*://discordapp.com/*", "storage", "webRequest", "webRequestBlocking", "tabs"]
+}
