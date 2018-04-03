@@ -253,6 +253,33 @@ function sendToBackground(messages)
 
         });
         break;
+
+        case 'requestEncryptedDM':
+          sendMessage({elementId: elementId, method: 'requestEncryptedDM', publicKeyId: payload.publicKeyId, publicKey: payload.publicKey }, function(response) {
+            if (response.state == 'success')
+            {
+              var statusText = padLock + '<b>Discrypt Key Request</b><br>\
+                I requested that we talk encrypted, so I sent my public key.<br>\
+                Send <b>.dm</b> to me to send me your public key.';
+
+              $('div[data-dc-id="' + response.elementId + '"]').html(statusText);
+            }
+            else if (response.state == 'yourOwn')
+            {
+              var statusText = padLock + '<b>Discrypt Key Request</b><br>\
+                Sent DM key request.';
+
+              $('div[data-dc-id="' + response.elementId + '"]').html(statusText);
+            }
+            else
+            {
+              var statusText = padLock + '<b>Discrypt Key Request</b><br>\
+                I requested that we talk encrypted, but something failed.';
+
+              $('div[data-dc-id="' + response.elementId + '"]').html(statusText);
+            }
+          });
+        break;
       }
 
 

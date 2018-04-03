@@ -234,12 +234,54 @@ function discrypt() {
           });
         }
       break;
+
+      case 'requestEncryptedDM':
+        if (currentServer.id != '@me')
+          sendResponse({
+            elementId: data.elementId,
+            method: 'requestEncryptedDM',
+            state: 'fail'
+          });
+
+        if (data.publicKeyId == cryptico.publicKeyID(settings.publicKey))
+          sendResponse({
+            elementId: data.elementId,
+            method: 'requestEncryptedDM',
+            state: 'yourOwn'
+          });
+
+        if (!(currentServer.id in settings.keys))
+        {
+          settings.keys[currentChannel.id] = data.publicKey;
+
+          setStorage();
+
+          sendResponse({
+            elementId: data.elementId,
+            method: 'requestEncryptedDM',
+            state: 'success'
+          });
+        }
+        else
+        {
+          sendResponse({
+            elementId: data.elementId,
+            method: 'requestEncryptedDM',
+            state: 'alreadyAdded'
+          });
+        }
+      break;
     }
   }
 
   var decryptMessage = function(message) {
 
     setCurrentServer();
+
+    if (currentServer.id == '@me' && currentChannel.id in settings.keys)
+    {
+      currentChannel.keys.privateKey = settings.privateKey;
+    }
 
     if (currentChannel.keys.privateKey.length < 1)
     {
@@ -353,6 +395,11 @@ function discrypt() {
 
     setCurrentServer();
 
+    if (currentServer.id == '@me' && currentChannel.keys.publicKey.length > 1)
+    {
+      currentChannel.keys.privateKey = settings.privateKey;
+    }
+
     // check if we have any keys for the current channel
     if (currentChannel.keys.publicKey.length < 1 || currentChannel.keys.privateKey.length < 1)
       return {};
@@ -409,6 +456,8 @@ function discrypt() {
         case '.createkey':
           var keyPair = generateKeyPair();
 
+          var destructKey = generateKeyPair();
+
           settings.keys[currentChannel.id] = keyPair;
 
           setCurrentServer();
@@ -439,6 +488,26 @@ function discrypt() {
             method: 'POST',
             payload: JSON.stringify(originalPayload)
           });
+
+        break;
+
+        case '.dm':
+          if (currentServer.id != '@me')
+            return;
+
+            var payload = {
+                cmd: 'requestEncryptedDM',
+                publicKeyId: cryptico.publicKeyID(settings.publicKey),
+                publicKey: settings.publicKey
+              };
+
+            originalPayload.content = '$dcc$' + JSON.stringify(payload);
+
+            send(originalRequest.url, {
+              method: 'POST',
+              payload: JSON.stringify(originalPayload)
+            });
+
 
         break;
 
