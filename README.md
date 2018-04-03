@@ -24,7 +24,7 @@ What things you need to setup Discrypt
 
 ### Installing
 
-Install Discrypt couldn't be simpler. Download the addon via the [Firefox Store](https://addons.mozilla.org/en-US/firefox/addon/discrypt/) or [Chrome Store](#) **coming soon** then open [discord](https://discordapp.com) via the web *not the desktop client*
+Install Discrypt couldn't be simpler. Download the addon via the [Firefox Store](https://addons.mozilla.org/en-US/firefox/addon/discrypt/) or [Chrome Store](https://chrome.google.com/webstore/detail/discrypt/hbfbcjhcmkpblaomeaenokhmpgodcoce) then open [discord](https://discordapp.com) via the web *not the desktop client*
 
 ## Setting up in your server
 
