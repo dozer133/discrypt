@@ -8,6 +8,9 @@ var mutationObserver = new MutationObserver(function(mutations) {
     if (mutation.target == undefined)
       continue;
 
+    if (typeof(mutation.target.querySelectorAll) != 'function')
+      continue;
+
     if ($('.edit-container-inner').is(':visible'))
     {
       // we're editing a message, decrypt the contents of the textarea
