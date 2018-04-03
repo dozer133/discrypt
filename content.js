@@ -175,6 +175,10 @@ function sendToBackground(messages)
       // send message to background script which has the channel keys for decryption
 
       sendMessage({elementId: elementId, method: 'decrypt', message: messageText.slice(5) }, function(response) {
+
+        if (response == undefined)
+          return;
+
         if (response.message != null)
         {
 
@@ -256,6 +260,9 @@ function sendToBackground(messages)
 
         case 'requestEncryptedDM':
           sendMessage({elementId: elementId, method: 'requestEncryptedDM', publicKeyId: payload.publicKeyId, publicKey: payload.publicKey }, function(response) {
+
+            console.log(response)
+
             if (response.state == 'success')
             {
               var statusText = padLock + '<b>Discrypt Key Request</b><br>\
@@ -268,6 +275,13 @@ function sendToBackground(messages)
             {
               var statusText = padLock + '<b>Discrypt Key Request</b><br>\
                 Sent DM key request.';
+
+              $('div[data-dc-id="' + response.elementId + '"]').html(statusText);
+            }
+            else if (response.state == 'alreadyAdded')
+            {
+              var statusText = padLock + '<b>Discrypt Key Request</b><br>\
+                Key already added.';
 
               $('div[data-dc-id="' + response.elementId + '"]').html(statusText);
             }

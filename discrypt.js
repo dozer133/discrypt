@@ -236,6 +236,7 @@ function discrypt() {
       break;
 
       case 'requestEncryptedDM':
+
         if (currentServer.id != '@me')
           sendResponse({
             elementId: data.elementId,
@@ -250,11 +251,15 @@ function discrypt() {
             state: 'yourOwn'
           });
 
-        if (!(currentServer.id in settings.keys))
+        if (!(currentChannel.id in settings.keys))
         {
-          settings.keys[currentChannel.id] = data.publicKey;
+          settings.keys[currentChannel.id] = {
+            publicKey: data.publicKey,
+          };
 
           setStorage();
+
+          setCurrentServer();
 
           sendResponse({
             elementId: data.elementId,
@@ -508,6 +513,14 @@ function discrypt() {
               payload: JSON.stringify(originalPayload)
             });
 
+
+        break;
+
+        case '.deletedm':
+          if (currentServer.id != '@me')
+            return;
+
+          delete settings.keys[currentChannel.id];
 
         break;
 
